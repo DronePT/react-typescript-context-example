@@ -1,25 +1,50 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import "./App.css";
+
+import {
+  NavigationMenuContextProvider,
+  withNavigationMenuContext
+} from "./context/NavigationMenuContext";
+
+const Menu = withNavigationMenuContext(props => {
+  const classNames = ['Menu'];
+
+  if (props.navigationMenuContext && props.navigationMenuContext.isOpen) {
+    classNames.push('is-open')
+  }
+
+  return (
+    <div className={classNames.join(' ')}>
+      <div>Hello, I'm The Navigation Menu!</div>
+    </div>
+  );
+});
+
+const RandomComponent = withNavigationMenuContext(props => {
+  const { navigationMenuContext } = props;
+
+  if (!navigationMenuContext) return <div>Loading</div>;
+
+  const {toggleMenu, isOpen} = navigationMenuContext
+
+  return (
+    <button className="btn" onClick={toggleMenu}>
+      Click to {isOpen ? 'close': 'open'} menu!
+    </button>
+  );
+});
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <NavigationMenuContextProvider>
+      <div className="App">
+        <header className="App-header">
+          Context test
+          <RandomComponent></RandomComponent>
+          <Menu></Menu>
+        </header>
+      </div>
+    </NavigationMenuContextProvider>
   );
 }
 
