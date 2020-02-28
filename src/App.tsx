@@ -7,15 +7,18 @@ import {
 } from "./context/NavigationMenuContext";
 
 const Menu = withNavigationMenuContext(props => {
-  const classNames = ['Menu'];
+  const classNames = ["Menu"];
 
   if (props.navigationMenuContext && props.navigationMenuContext.isOpen) {
-    classNames.push('is-open')
+    classNames.push("is-open");
   }
 
   return (
-    <div className={classNames.join(' ')}>
+    <div className={classNames.join(" ")}>
       <div>Hello, I'm The Navigation Menu!</div>
+      <button className="btn btn-sm" onClick={props.navigationMenuContext?.closeMenu}>
+        Close
+      </button>
     </div>
   );
 });
@@ -25,11 +28,11 @@ const RandomComponent = withNavigationMenuContext(props => {
 
   if (!navigationMenuContext) return <div>Loading</div>;
 
-  const {toggleMenu, isOpen} = navigationMenuContext
+  const { toggleMenu, isOpen } = navigationMenuContext;
 
   return (
     <button className="btn" onClick={toggleMenu}>
-      Click to {isOpen ? 'close': 'open'} menu!
+      Click to {isOpen ? "close" : "open"} menu!
     </button>
   );
 });
@@ -38,11 +41,9 @@ function App() {
   return (
     <NavigationMenuContextProvider>
       <div className="App">
-        <header className="App-header">
-          Context test
-          <RandomComponent></RandomComponent>
-          <Menu></Menu>
-        </header>
+        <h1>React Context API Example</h1>
+        <Menu></Menu>
+        <RandomComponent></RandomComponent>
       </div>
     </NavigationMenuContextProvider>
   );
